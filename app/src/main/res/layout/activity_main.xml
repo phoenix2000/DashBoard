@@ -27,7 +27,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="155dp"
         android:layout_marginBottom="315dp"
-        android:text="Dairy "
+        android:text="Beverages "
         app:layout_constraintBottom_toBottomOf="@+id/button" />
 
     <Button
@@ -38,21 +38,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginStart="155dp"
-        android:layout_marginBottom="432dp"
-        android:text="Beverages"
+        android:layout_marginBottom="406dp"
+        android:text="Snacks"
         app:layout_constraintBottom_toBottomOf="@+id/button2" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="156dp"
-        android:layout_marginBottom="373dp"
-        android:text="Meat"
-        app:layout_constraintBottom_toBottomOf="@+id/button3" />
 
 
 </RelativeLayout >

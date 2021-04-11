@@ -8,13 +8,14 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private Button button,button2;
+    private Button button,button2,button3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button=(Button)findViewById(R.id.button);
         button2=(Button)findViewById(R.id.button2);
+        button3=(Button)findViewById(R.id.button3);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -29,6 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        button3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                openCart3();
+
+            }
+        });
     }
     public void openCart1(){
         Intent intent = new Intent(this, Cart.class);
@@ -36,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public void openCart2(){
         Intent intent = new Intent(this, Cart2.class);
+        startActivity(intent);
+    }
+    public void openCart3(){
+        Intent intent = new Intent(this, cart3.class);
         startActivity(intent);
     }
 }

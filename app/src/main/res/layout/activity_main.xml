@@ -41,5 +41,19 @@
         android:text="Snacks"
         app:layout_constraintBottom_toBottomOf="@+id/button2" />
 
+    <Button
+        android:id="@+id/request_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Make Request" />
+
+    <TextView
+        android:id="@+id/response_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/request_button"
+        android:textColor="@color/colorPrimaryDark" />
+
 
 </RelativeLayout >

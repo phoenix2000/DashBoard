@@ -68,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
         requestButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                getAllProducts();
+                openProductsActivity();
+
+//                getAllProducts();
 
 //                User user = new User("test5@test.com", "testFromAndroid", "customer", "", "234567", "xyz", "490023", "cwa", "MP");
 //                user._id = "6075ccc122e98800049e3794";
@@ -92,6 +94,11 @@ public class MainActivity extends AppCompatActivity {
     }
     public void openCart3(){
         Intent intent = new Intent(this, cart3.class);
+        startActivity(intent);
+    }
+
+    private void openProductsActivity() {
+        Intent intent = new Intent(this, ProductsActivity.class);
         startActivity(intent);
     }
 

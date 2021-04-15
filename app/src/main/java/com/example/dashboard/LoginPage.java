@@ -179,7 +179,7 @@ public class LoginPage extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                Toast.makeText(LoginPage.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginPage.this, "api exception "+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
         else{

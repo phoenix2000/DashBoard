@@ -1,230 +1,96 @@
 package com.example.dashboard;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-import android.widget.TextView;
-import android.transition.TransitionManager;
+import com.example.dashboard.fragment.AddressBookFragment;
+import com.example.dashboard.fragment.CartFragment;
+import com.example.dashboard.fragment.CategoriesFragment;
+import com.example.dashboard.fragment.HomeFragment;
+import com.example.dashboard.fragment.SearchFragment;
+import com.example.dashboard.fragment.YourOrderFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
-import com.example.dashboard.data.Preferences;
-import com.example.dashboard.model.Product;
-import com.example.dashboard.model.ProductDescription;
-import com.example.dashboard.model.ProductsResponse;
-import com.example.dashboard.model.User;
-import com.example.dashboard.model.UserResponseObject;
-import com.example.dashboard.network.DataService;
-import com.example.dashboard.network.RetrofitClientInstance;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class MainActivity extends AppCompatActivity {
-    private Button button,button2,button3,requestButton;
-    private TextView responseText;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button=(Button)findViewById(R.id.button);
-        button2=(Button)findViewById(R.id.button2);
-        button3=(Button)findViewById(R.id.button3);
-//        button5=(Button) findViewById(R.id.button5);
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                openCart1();
 
-            }
-        });
-        button2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                openCart2();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-            }
-        });
-        button3.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                openCart3();
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
-            }
-        });
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.Nav_drawer_open, R.string.Nav_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
-        requestButton = (Button)findViewById(R.id.request_button);
-        requestButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-//                openProductsActivity();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
-//                getAllProducts();
-
-//                User user = new User("test5@test.com", "testFromAndroid", "customer", "", "234567", "xyz", "490023", "cwa", "MP");
-//                user._id = "6075ccc122e98800049e3794";
-//                postOneProduct(new Product("anaar", 31.1f, 100f, "kg", "wholesaler",
-//                        new ProductDescription("grocery", "fruit", ""), user));
-
-                //postNewUser(new User("test10@test.com", "testFromAndroid", "customer", "", "234567", "xyz", "490023", "cwa", "MP"));
-
-                getUserWithEmail("test1@gmail.com");
-
-            }
-        });
-        responseText = (TextView)findViewById(R.id.response_text);
-    }
-    public void openCart1(){
-        Intent intent = new Intent(this, Cart.class);
-        startActivity(intent);
-    }
-    public void openCart2(){
-        Intent intent = new Intent(this, Cart2.class);
-        startActivity(intent);
-    }
-    public void openCart3(){
-        Intent intent = new Intent(this, cart3.class);
-        startActivity(intent);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
     }
 
-    private void openProductsActivity() {
-        Intent intent = new Intent(this, ProductsActivity.class);
-        startActivity(intent);
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment selectedFragment = null;
+            switch (item.getItemId()) {
+                case R.id.nav_home:
+                    selectedFragment = new HomeFragment();
+                    break;
+                case R.id.nav_categories:
+                    selectedFragment = new CategoriesFragment();
+                    break;
+                case R.id.nav_search:
+                    selectedFragment = new SearchFragment();
+                    break;
+                case R.id.nav_cart:
+                    selectedFragment = new CartFragment();
+                    break;
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+            return true;
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else
+            super.onBackPressed();
     }
 
-    private void getAllProducts() {
-        requestButton.setEnabled(false);
 
-        DataService service = RetrofitClientInstance.getRetrofitInstance()
-                .create(DataService.class);
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_your_orders:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new YourOrderFragment()).commit();
+                break;
+            case R.id.nav_address_book:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddressBookFragment()).commit();
+                break;
+        }
 
-        Call<ProductsResponse> call = service.getAllProducts();
-
-        call.enqueue(new Callback<ProductsResponse>() {
-            @Override
-            public void onResponse(Call<ProductsResponse> call, Response<ProductsResponse> response) {
-                requestButton.setEnabled(true);
-                if(response.body().error) {
-                    responseText.setText(response.body().message);
-                }
-                else {
-                    for(Product product: response.body().productList) {
-                        responseText.append(product.name + ", " + product.quantity + /*", " + product.description.type +*/ ", " + product.seller.name + "\n");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ProductsResponse> call, Throwable t) {
-                requestButton.setEnabled(true);
-                responseText.setText(t.getMessage());
-            }
-        });
-    }
-
-    private void postOneProduct(Product product) {
-        requestButton.setEnabled(false);
-
-        DataService service = RetrofitClientInstance.getRetrofitInstance()
-                .create(DataService.class);
-
-        Call<Product> call = service.postOneProduct(product);
-
-        call.enqueue(new Callback<Product>() {
-            @Override
-            public void onResponse(Call<Product> call, Response<Product> response) {
-                requestButton.setEnabled(true);
-                if(response.body().error){
-                    responseText.setText(response.body().message);
-                }
-                else {
-                    Log.d("MainActivity.java", "onResponse: "  + response.body().toString());
-                    //responseText.setText(response.body().name + ", " + response.body().description.type + response.body().seller.name);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Product> call, Throwable t) {
-                requestButton.setEnabled(true);
-                responseText.setText(t.getMessage());
-            }
-        });
-    }
-
-    private void postNewUser(User user) {
-        requestButton.setEnabled(false);
-
-        DataService service = RetrofitClientInstance.getRetrofitInstance()
-                .create(DataService.class);
-
-        Call<UserResponseObject> call = service.postNewUser(user.userType, user);//(user.userType, user.email, user.name, user.storeName, user.phone, user.address.street, user.address.pincode, user.address.city, user.address.state);
-
-        call.enqueue(new Callback<UserResponseObject>() {
-            @Override
-            public void onResponse(Call<UserResponseObject> call, Response<UserResponseObject> response) {
-                requestButton.setEnabled(true);
-                if(response.body().error){
-                    responseText.setText(response.body().message);
-                }
-                else {
-                    responseText.setText(response.body().user.name + ", " + response.body().user.address.city + ", " + response.body().user._id);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserResponseObject> call, Throwable t) {
-                requestButton.setEnabled(true);
-                responseText.setText(t.getMessage());
-            }
-        });
-    }
-
-    private void getUserWithEmail(String email) {
-        requestButton.setEnabled(false);
-
-        DataService service = RetrofitClientInstance.getRetrofitInstance()
-                .create(DataService.class);
-
-        Call<UserResponseObject> call = service.getUserWithEmail(email);
-
-        call.enqueue(new Callback<UserResponseObject>() {
-            @Override
-            public void onResponse(Call<UserResponseObject> call, Response<UserResponseObject> response) {
-                requestButton.setEnabled(true);
-                if(response.body().error){
-                    responseText.setText(response.body().message);
-                }
-                else {
-                    if(response.body().user != null){
-                        Preferences preferences = Preferences.getPreferences(getApplicationContext());
-                        preferences.saveUser(response.body().user);
-                        responseText.setText(preferences.getCurrentUser().name + ", " + preferences.getCurrentUser()._id);
-                    }
-                    else {
-                        responseText.setText(response.body().message);
-                    }
-
-//                    responseText.setText(response.body().user.name + ", " + response.body().user.phone + ", " + response.body().user._id);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserResponseObject> call, Throwable t) {
-                requestButton.setEnabled(true);
-                responseText.setText(t.getMessage());
-            }
-        });
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

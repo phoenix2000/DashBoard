@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,20 +25,41 @@ public class Registration extends AppCompatActivity {
         name_text = findViewById(R.id.nametext);
         mail_text = findViewById(R.id.mailtext);
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if(signInAccount!=null)
-        {
-            name_text.setText(signInAccount.getDisplayName());
-            mail_text.setText(signInAccount.getEmail());
+        int loginOption = LoginPage.signInOption;
+        if(loginOption==2) {
+            Intent intent = getIntent();
+            if (intent == null) {
+                Toast.makeText(this, "intent received == null", Toast.LENGTH_SHORT).show();
+            }
+            Bundle bundle = intent.getExtras();
+
+            if (bundle != null) {
+                String name = bundle.getString("name");
+                String mail = bundle.getString("mail");
+
+                name_text.setText("Name: " + name);
+                mail_text.setText("Email: " + mail);
+            } else {
+                name_text.setText("");
+                mail_text.setText("");
+            }
+        }else{
+            GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+            if(signInAccount!=null){
+                name_text.setText("Name: " + signInAccount.getDisplayName());
+                mail_text.setText("Email: " + signInAccount.getEmail());
+            } else{
+                name_text.setText("2");
+                mail_text.setText("2");
+            }
         }
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), LoginPage.class);
-                startActivity(intent);
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getApplicationContext(), LoginPage.class);
+            startActivity(intent);
             }
         });
-
     }
 }

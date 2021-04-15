@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.transition.TransitionManager;
 
+import com.example.dashboard.data.Preferences;
 import com.example.dashboard.model.Product;
 import com.example.dashboard.model.ProductDescription;
 import com.example.dashboard.model.ProductsResponse;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         requestButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                openProductsActivity();
+//                openProductsActivity();
 
 //                getAllProducts();
 
@@ -79,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
                 //postNewUser(new User("test10@test.com", "testFromAndroid", "customer", "", "234567", "xyz", "490023", "cwa", "MP"));
 
-                //getUserWithEmail("test1@gmail.com");
+                getUserWithEmail("test1@gmail.com");
+
             }
         });
         responseText = (TextView)findViewById(R.id.response_text);
@@ -205,7 +207,16 @@ public class MainActivity extends AppCompatActivity {
                     responseText.setText(response.body().message);
                 }
                 else {
-                    responseText.setText(response.body().user.name + ", " + response.body().user.phone + ", " + response.body().user._id);
+                    if(response.body().user != null){
+                        Preferences preferences = Preferences.getPreferences(getApplicationContext());
+                        preferences.saveUser(response.body().user);
+                        responseText.setText(preferences.getCurrentUser().name + ", " + preferences.getCurrentUser()._id);
+                    }
+                    else {
+                        responseText.setText(response.body().message);
+                    }
+
+//                    responseText.setText(response.body().user.name + ", " + response.body().user.phone + ", " + response.body().user._id);
                 }
             }
 

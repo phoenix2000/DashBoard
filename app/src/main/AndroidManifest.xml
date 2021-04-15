@@ -13,7 +13,11 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Registration"/>
         <activity android:name=".LoginPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 <!--        Facebook login activity begin   -->
         <meta-data android:name="com.facebook.sdk.ApplicationId"
@@ -38,11 +42,7 @@
         <activity android:name=".Cart2" />
         <activity android:name=".Cart" />
         <activity android:name=".MainActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ProductsActivity" />
     </application>

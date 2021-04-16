@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "236652190436",
+    "firebase_url": "https://dashboard-5922c-default-rtdb.firebaseio.com",
     "project_id": "dashboard-5922c",
     "storage_bucket": "dashboard-5922c.appspot.com"
   },
@@ -19,6 +20,14 @@
           "android_info": {
             "package_name": "com.example.dashboard",
             "certificate_hash": "4ef1736213f6a6a7a210504286fbcc9213aeed6b"
+          }
+        },
+        {
+          "client_id": "236652190436-qvpbm6pejcdvsamgvjgphijplmhg8vt0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dashboard",
+            "certificate_hash": "ab6cce43990775a8c895d7ec1d45efc606b38900"
           }
         },
         {
